@@ -1,19 +1,42 @@
 package com.github.networkguild.framework
 
-import org.reflections.Reflections
-import java.lang.reflect.Modifier
+import net.dv8tion.jda.api.interactions.commands.build.CommandData
+import net.dv8tion.jda.api.interactions.commands.build.OptionData
+import org.springframework.beans.factory.ListableBeanFactory
+import org.springframework.stereotype.Component
 
-class Indexer(pkg: String) {
-    private val reflections = Reflections(pkg)
+@Component
+class Indexer(private val beanFactory: ListableBeanFactory) {
 
-    fun getCommands(): List<SlashCommand> {
-        val allCommands = reflections.getSubTypesOf(SlashCommand::class.java)
-            .filter { !Modifier.isAbstract(it.modifiers) && !it.isInterface }
-        val slashCommands = mutableListOf<SlashCommand>()
-        for (cmd in allCommands) {
-            val kls = cmd.getDeclaredConstructor().newInstance()
-            slashCommands.add(kls as SlashCommand)
+    fun getCommands(): HashMap<String, SlashCommand> {
+        val commands = HashMap<String, SlashCommand>()
+        beanFactory.getBeansOfType(SlashCommand::class.java).forEach {
+            commands[it.key] = it.value
         }
-        return slashCommands.toList()
+        return commands
+    }
+
+    fun getGuildCommandDataWithOptions(): MutableList<CommandData> {
+        val commands = getCommands()
+        val commandDataList = mutableListOf<CommandData>()
+        commands.filterValues { it.properties.guildOnly }.forEach { (key, value) ->
+            if (value.options != null) {
+                val optionData = value.options!!
+                commandDataList.add(
+                    CommandData(key, value.properties.description)
+                        .addOptions(
+                            OptionData(
+                                optionData.type,
+                                optionData.name,
+                                optionData.description,
+                                optionData.isRequired
+                            )
+                        )
+                )
+            } else {
+                commandDataList.add(CommandData(key, value.properties.description))
+            }
+        }
+        return commandDataList
     }
 }

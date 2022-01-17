@@ -23,8 +23,10 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-neo4j")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
     implementation("io.micrometer:micrometer-registry-prometheus")
+    implementation("io.github.mweirauch:micrometer-jvm-extras:0.2.2")
 
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
@@ -39,7 +41,6 @@ dependencies {
         exclude("net.dv8tion", "opus-java")
     }
     implementation("com.sedmelluq:lavaplayer:1.3.78")
-    implementation("org.reflections:reflections:0.9.11")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.projectreactor:reactor-test")

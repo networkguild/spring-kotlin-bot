@@ -1,6 +1,9 @@
 package com.github.networkguild.infra.metrics
 
+import io.github.mweirauch.micrometer.jvm.extras.ProcessMemoryMetrics
+import io.github.mweirauch.micrometer.jvm.extras.ProcessThreadMetrics
 import io.micrometer.core.instrument.MeterRegistry
+import io.micrometer.core.instrument.binder.MeterBinder
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.actuate.autoconfigure.metrics.MeterRegistryCustomizer
 import org.springframework.context.annotation.Bean
@@ -18,6 +21,12 @@ class MetricsConfiguration(
         MeterRegistryCustomizer { registry ->
             registry.config().commonTags("app.version", "$releaseTag ($buildNumber / $commitHash)")
         }
+
+    @Bean
+    fun processMemoryMetrics(): MeterBinder = ProcessMemoryMetrics()
+
+    @Bean
+    fun processThreadMetrics(): MeterBinder = ProcessThreadMetrics()
 
     @Bean
     fun messageRegistry(registry: MeterRegistry) = registry.counter("message.seen")
