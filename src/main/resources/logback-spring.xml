@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <logger name="com.github.networkguild" level="DEBUG"/>
+    <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
+        <resetJUL>true</resetJUL>
+    </contextListener>
+    <logger name="OutboundMessageHandler" level="DEBUG"/>
+    <logger name="InboundMessageDispatcher" level="DEBUG"/>
+    <logger name="sun.nio.ch.FileDispatcherImpl" level="OFF"/>
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <appender name="Sentry" class="io.sentry.logback.SentryAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>WARN</level>
+        </filter>
+    </appender>
+    <root level="info">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="Sentry"/>
+    </root>
+</configuration>
