@@ -1,0 +1,60 @@
+version: '3'
+services:
+  prometheus:
+    image: prom/prometheus:v2.32.1
+    container_name: prometheus
+    restart: unless-stopped
+    user: root
+    ports:
+      - "9090:9090"
+    volumes:
+      - /root/prometheus:/etc/prometheus
+      - /root/prometheus-data:/prometheus
+    command:
+      - '--web.enable-lifecycle'
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+    networks:
+      - sdn
+
+  neo4j-enterprise:
+    image: neo4j:4.4.3-enterprise
+    container_name: neo4j-enterprise
+    restart: unless-stopped
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    volumes:
+      - /root/neo4j-sdn/conf:/conf
+      - /root/neo4j-sdn/data:/data
+      - /root/neo4j-sdn/import:/var/lib/neo4j/import
+      - /root/neo4j-sdn/logs:/logs
+      - /root/neo4j-sdn/plugins:/plugins
+    environment:
+      - NEO4J_dbms_memory_pagecache_size=1G
+      - NEO4J_dbms.memory.heap.initial_size=1G
+      - NEO4J_dbms_memory_heap_max__size=1G
+      - NEO4J_AUTH=neo4j/neo4j
+      - NEO4J_ACCEPT_LICENSE_AGREEMENT=yes
+    networks:
+      - sdn
+
+  spring-kotlin-bot:
+    image: laurihuotari/spring-kotlin-bot:latest
+    container_name: spring-kotlin-bot
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    links:
+      - neo4j-enterprise
+      - prometheus
+    env_file:
+      - /root/dev.env
+    networks:
+      - sdn
+
+networks:
+  sdn:
+    driver: bridge
