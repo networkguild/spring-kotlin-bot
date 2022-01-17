@@ -47,7 +47,7 @@ jobs:
           context: .
           file: docker/Dockerfile
           no-cache: false
-          push: false
+          push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           platforms: linux/arm64

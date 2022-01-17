@@ -10,7 +10,7 @@ import reactor.core.publisher.Mono
 @EnableReactiveNeo4jAuditing
 class Neo4jConfiguration {
     companion object {
-        private const val SOURCE_NAME = "CoroBot"
+        private const val SOURCE_NAME = "KotlinBot"
     }
     @Bean
     fun sourceWriter(): ReactiveAuditorAware<String> = ReactiveAuditorAware<String> { Mono.just(SOURCE_NAME) }
