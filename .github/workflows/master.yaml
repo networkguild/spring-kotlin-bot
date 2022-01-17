@@ -54,4 +54,4 @@ jobs:
           build-args: |
             GITHUB_COMMIT_SHA=${{ github.sha }}
             GITHUB_BUILD_NUMBER=${{ github.run_id }}
-            RELEASE_TAG=master
+            RELEASE_TAG=${{ github.sha }}
