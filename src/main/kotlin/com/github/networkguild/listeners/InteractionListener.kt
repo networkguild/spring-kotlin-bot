@@ -15,11 +15,11 @@ class InteractionListener(
 ) : ListenerAdapter() {
 
     private val supervisor = CoroutineScope(Dispatchers.IO + SupervisorJob())
-    private val slashCommandRegistry = indexer.getCommands()
+    private val slashCommands = indexer.getCommands()
 
     override fun onSlashCommand(event: SlashCommandEvent) {
         Metrics.counter("interaction.used").increment()
-        val command = slashCommandRegistry[event.name]
+        val command = slashCommands[event.name]
         supervisor.launch {
             command?.handle(event)
             userUseCases.updateUser(event)

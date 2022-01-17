@@ -1,5 +1,6 @@
 package com.github.networkguild.framework
 
+import net.dv8tion.jda.api.interactions.commands.Command
 import net.dv8tion.jda.api.interactions.commands.build.OptionData
 
 interface Command<T> {
@@ -10,7 +11,9 @@ interface Command<T> {
     val properties: CommandProperties
         get() = javaClass.getAnnotation(CommandProperties::class.java)
 
-    val options: List<OptionData>
+    val options: OptionData?
+
+    val choice: List<Command.Choice>
 
     suspend fun handle(event: T)
 }

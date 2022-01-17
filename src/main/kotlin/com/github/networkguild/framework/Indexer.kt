@@ -1,5 +1,7 @@
 package com.github.networkguild.framework
 
+import net.dv8tion.jda.api.interactions.commands.build.CommandData
+import net.dv8tion.jda.api.interactions.commands.build.OptionData
 import org.springframework.beans.factory.ListableBeanFactory
 import org.springframework.stereotype.Component
 
@@ -12,5 +14,29 @@ class Indexer(private val beanFactory: ListableBeanFactory) {
             commands[it.key] = it.value
         }
         return commands
+    }
+
+    fun getGuildCommandDataWithOptions(): MutableList<CommandData> {
+        val commands = getCommands()
+        val commandDataList = mutableListOf<CommandData>()
+        commands.filterValues { it.properties.guildOnly }.forEach { (key, value) ->
+            if (value.options != null) {
+                val optionData = value.options!!
+                commandDataList.add(
+                    CommandData(key, value.properties.description)
+                        .addOptions(
+                            OptionData(
+                                optionData.type,
+                                optionData.name,
+                                optionData.description,
+                                optionData.isRequired
+                            )
+                        )
+                )
+            } else {
+                commandDataList.add(CommandData(key, value.properties.description))
+            }
+        }
+        return commandDataList
     }
 }
