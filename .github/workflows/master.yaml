@@ -1,0 +1,57 @@
+name: Master
+
+on:
+  push:
+    branches:
+      - master
+env:
+  DOCKER_USERNAME: laurihuotari
+
+jobs:
+  build:
+    name: Build jar
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Java
+        uses: actions/setup-java@v2
+        with:
+          distribution: zulu
+          java-version: 17
+
+      - name: Test and build jar
+        uses: gradle/gradle-build-action@v1
+        with:
+          gradle-version: 7.3.3
+          arguments: clean test assemble
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ env.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Define image meta
+        id: meta
+        uses: docker/metadata-action@v3
+        with:
+          images: ${{ env.DOCKER_USERNAME }}/${{ github.event.repository.name }}
+          flavor: |
+            latest=true
+
+      - name: Build image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: docker/Dockerfile
+          no-cache: false
+          push: false
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          platforms: linux/arm64
+          build-args: |
+            GITHUB_COMMIT_SHA=${{ github.sha }}
+            GITHUB_BUILD_NUMBER=${{ github.run_id }}
+            RELEASE_TAG=master
