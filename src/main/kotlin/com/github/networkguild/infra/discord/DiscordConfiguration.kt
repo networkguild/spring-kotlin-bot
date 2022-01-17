@@ -10,9 +10,9 @@ import net.dv8tion.jda.api.OnlineStatus
 import net.dv8tion.jda.api.entities.Activity
 import net.dv8tion.jda.api.requests.GatewayIntent
 import org.springframework.context.annotation.Bean
-import org.springframework.stereotype.Component
+import org.springframework.context.annotation.Configuration
 
-@Component
+@Configuration
 class DiscordConfiguration(
     private val discordConfigurationProperties: DiscordConfigurationProperties,
     private val eventListener: EventListener,

@@ -9,7 +9,7 @@ build:
 
 .PHONY: run
 run: build
-	java -Xms512m -Xmx512m -XX:+ExitOnOutOfMemoryError -jar build/libs/corobot-1.0.jar
+	java -Xms512m -Xmx512m -XX:+ExitOnOutOfMemoryError -jar build/libs/spring-kotlin-bot-1.0.jar
 
 .PHONY: publish
 publish: docker

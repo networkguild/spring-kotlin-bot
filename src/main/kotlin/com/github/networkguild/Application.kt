@@ -23,11 +23,12 @@ class Application {
 fun main(args: Array<String>) {
 
     fun runApplicationAndFailLoudly(args: Array<String>) {
-        try {
+
+        runCatching {
             runApplication<Application>(*args)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            throw e
+        }.onFailure {
+            it.printStackTrace()
+            throw it
         }
     }
 
