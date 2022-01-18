@@ -16,6 +16,15 @@ class Indexer(private val beanFactory: ListableBeanFactory) {
         return commands
     }
 
+    suspend fun getGlobalCommandData(): MutableList<CommandData> {
+        val commands = getCommands()
+        val globalCommandsData = mutableListOf<CommandData>()
+        commands.filterValues { !it.properties.guildOnly }.forEach { (key, value) ->
+            globalCommandsData.add(CommandData(key, value.properties.description))
+        }
+        return globalCommandsData
+    }
+
     fun getGuildCommandDataWithOptions(): MutableList<CommandData> {
         val commands = getCommands()
         val commandDataList = mutableListOf<CommandData>()
