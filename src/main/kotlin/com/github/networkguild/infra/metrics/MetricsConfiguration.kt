@@ -29,7 +29,7 @@ class MetricsConfiguration(
     fun processThreadMetrics(): MeterBinder = ProcessThreadMetrics()
 
     @Bean
-    fun messageRegistry(registry: MeterRegistry) = registry.counter("message.seen")
+    fun messageSeenRegistry(registry: MeterRegistry) = registry.counter("message.seen")
 
     @Bean
     fun interactionRegistry(registry: MeterRegistry) = registry.counter("interaction.used")
@@ -42,4 +42,7 @@ class MetricsConfiguration(
 
     @Bean
     fun reconnectRegistry(registry: MeterRegistry) = registry.counter("reconnect")
+
+    @Bean
+    fun messageDeletedRegistry(registry: MeterRegistry) = registry.counter("message.deleted")
 }
