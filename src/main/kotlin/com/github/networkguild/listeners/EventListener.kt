@@ -4,6 +4,7 @@ import com.github.networkguild.domain.neo4j.Guild
 import com.github.networkguild.framework.CoroutineEventListener
 import com.github.networkguild.framework.Indexer
 import com.github.networkguild.repository.GuildRepository
+import com.github.networkguild.utils.Logback
 import io.micrometer.core.instrument.Metrics
 import kotlinx.coroutines.reactor.awaitSingle
 import net.dv8tion.jda.api.events.GenericEvent
@@ -11,7 +12,6 @@ import net.dv8tion.jda.api.events.ReadyEvent
 import net.dv8tion.jda.api.events.ReconnectedEvent
 import net.dv8tion.jda.api.events.guild.GuildJoinEvent
 import net.dv8tion.jda.api.events.guild.GuildLeaveEvent
-import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -21,7 +21,7 @@ class EventListener(
     private val indexer: Indexer
 ) : CoroutineEventListener {
 
-    private val logger = LoggerFactory.getLogger(javaClass)
+    private val logger by Logback<EventListener>()
 
     override suspend fun onEvent(event: GenericEvent) {
         when (event) {

@@ -12,13 +12,13 @@ import org.springframework.stereotype.Component
 @Component
 class InteractionListener(
     private val userUseCases: UserUseCases,
-    indexer: Indexer
+    private val indexer: Indexer
 ) : CoroutineEventListener {
 
     private val supervisor = CoroutineScope(Dispatchers.IO + SupervisorJob())
-    private val slashCommands = indexer.getCommands()
 
     override suspend fun onEvent(event: GenericEvent) {
+        val slashCommands = indexer.getCommands()
         when (event) {
             is SlashCommandEvent -> {
                 Metrics.counter("interaction.used").increment()
