@@ -25,7 +25,11 @@ class EventListener(
 
     override suspend fun onEvent(event: GenericEvent) {
         when (event) {
-            is ReadyEvent -> logger.info("Ready with ping ${event.jda.gatewayPing.milliseconds}")
+            is ReadyEvent -> {
+                logger.info("Ready with ping ${event.jda.gatewayPing.milliseconds}")
+                val globalCommandData = indexer.getGlobalCommandData()
+                event.jda.updateCommands().addCommands(*globalCommandData.toTypedArray()).queue()
+            }
             is GuildJoinEvent -> {
                 Metrics.counter("guild.joined").increment()
                 val commandData = indexer.getGuildCommandDataWithOptions()
