@@ -52,7 +52,8 @@ fun JDA.registerGlobalCommands() {
                         Command.Choice("playing", 4),
                         Command.Choice("watching", 5)
                     )
-                }
+                },
+                OptionData(OptionType.STRING, "target", "So what am I doing?", true)
             ),
             CommandData("prune", "Prune messages").addOptions(
                 OptionData(OptionType.INTEGER, "count", "The amount of messages to prune. Default 50")

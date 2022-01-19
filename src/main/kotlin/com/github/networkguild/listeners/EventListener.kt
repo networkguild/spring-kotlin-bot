@@ -71,7 +71,11 @@ class EventListener(
                 ),
                 title = "${selfUser.name} is ready!",
                 url = "https://github.com/networkguild/spring-kotlin-bot",
-                description = "[Grafana](https://networkguild.grafana.net/goto/9soof91nk?orgId=1) dashboard",
+                description = """
+                    **[Spring Boot Grafana dashboard](https://networkguild.grafana.net/goto/9soof91nk?orgId=1)**
+                    
+                    **[Raspberry Pi Grafana dashboard](https://networkguild.grafana.net/goto/ecF-RC17z?orgId=1)**
+                """.trimIndent(),
                 color = 0xFF007F,
                 footer = Embed.Footer(
                     text = "Provided by ${selfUser.name}",
