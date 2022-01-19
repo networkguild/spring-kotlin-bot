@@ -8,5 +8,6 @@ import org.springframework.boot.context.properties.ConstructorBinding
 data class DiscordConfigurationProperties(
     val token: String,
     val ownerId: Long,
-    val webhookError: String? = null
+    val webhookError: String? = null,
+    val devChannel: Long? = null
 )

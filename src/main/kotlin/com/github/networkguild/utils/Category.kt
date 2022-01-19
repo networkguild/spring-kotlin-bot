@@ -8,6 +8,5 @@ enum class Category(val title: String, val description: String) {
     OWNER(":goat: Owner Commands", "Commands that only bot owner can use."),
     MISC(":information_source: Misc Commands", "Anything not covered by the other categories."),
     NEO4J(":straight_ruler: Neo4j", "Image generation with a memey twist."),
-    INTERACTIONS("Interactions", "Interact with someone."),
     NSFW(":eyes: NSFW Commands", "Commands to get some nice content.")
 }

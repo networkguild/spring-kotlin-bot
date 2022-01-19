@@ -7,8 +7,10 @@ import kotlinx.coroutines.reactive.awaitFirstOrNull
 import kotlinx.coroutines.reactor.awaitSingle
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent
 import org.springframework.stereotype.Component
+import org.springframework.transaction.annotation.Transactional
 
 @Component
+@Transactional
 class UserUseCases(
     private val userRepository: UserRepository,
     private val guildRepository: GuildRepository

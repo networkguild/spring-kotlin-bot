@@ -11,10 +11,10 @@ import org.springframework.stereotype.Component
 import java.time.Instant
 
 @Component
-@CommandProperties(description = "Invite url!", category = Category.MISC)
+@CommandProperties(description = "Get invite url!", category = Category.MISC)
 class Invite : SlashCommand() {
 
-    override suspend fun handle(event: SlashCommandEvent) {
+    override suspend fun invoke(event: SlashCommandEvent) {
         val bot = event.jda.selfUser
         val inviteUrl = "${event.jda.getInviteUrl(Permission.ADMINISTRATOR)}%20applications.commands"
         event.replyEmbeds(

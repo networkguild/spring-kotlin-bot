@@ -22,9 +22,9 @@ class InteractionListener(
         when (event) {
             is SlashCommandEvent -> {
                 Metrics.counter("interaction.used").increment()
-                val command = slashCommands[event.name]
+                val command = slashCommands[event.name]!!
                 supervisor.launch {
-                    command?.handle(event)
+                    command(event)
                     userUseCases.updateUser(event)
                 }
             }
