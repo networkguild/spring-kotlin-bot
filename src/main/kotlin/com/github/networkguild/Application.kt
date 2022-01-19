@@ -18,19 +18,22 @@ class Application {
     @Bean(ReactiveNeo4jRepositoryConfigurationExtension.DEFAULT_TRANSACTION_MANAGER_BEAN_NAME)
     fun reactiveTransactionManager(driver: Driver, databaseNameProvider: ReactiveDatabaseSelectionProvider) =
         ReactiveNeo4jTransactionManager(driver, databaseNameProvider)
-}
 
-fun main(args: Array<String>) {
+    companion object {
+        @JvmStatic
+        fun main(args: Array<String>) {
 
-    fun runApplicationAndFailLoudly(args: Array<String>) {
+            fun runApplicationAndFailLoudly(args: Array<String>) {
 
-        runCatching {
-            runApplication<Application>(*args)
-        }.onFailure {
-            it.printStackTrace()
-            throw it
+                runCatching {
+                    runApplication<Application>(*args)
+                }.onFailure {
+                    it.printStackTrace()
+                    throw it
+                }
+            }
+
+            runApplicationAndFailLoudly(args)
         }
     }
-
-    runApplicationAndFailLoudly(args)
 }

@@ -9,7 +9,8 @@ import org.springframework.stereotype.Component
 @Component
 @CommandProperties(description = "Shows JVM stats and other metrics", category = Category.OWNER)
 class Jvm : SlashCommand() {
-    override suspend fun handle(event: SlashCommandEvent) {
+
+    override suspend fun invoke(event: SlashCommandEvent) {
         event.deferReply().queue()
         if (event.isFromGuild) {
             event.hook.sendMessage("It is working from guild").queue()

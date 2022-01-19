@@ -5,6 +5,7 @@ import com.github.networkguild.framework.CoroutineEventManager
 import com.github.networkguild.listeners.EventListener
 import com.github.networkguild.listeners.InteractionListener
 import com.github.networkguild.listeners.MessageListener
+import kotlinx.coroutines.DelicateCoroutinesApi
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.JDABuilder
 import net.dv8tion.jda.api.OnlineStatus
@@ -21,6 +22,7 @@ class DiscordConfiguration(
     private val interactionListener: InteractionListener,
     private val messageListener: MessageListener
 ) {
+    @OptIn(DelicateCoroutinesApi::class)
     @Bean
     fun jda(): JDA {
         return JDABuilder.createDefault(discordConfigurationProperties.token)

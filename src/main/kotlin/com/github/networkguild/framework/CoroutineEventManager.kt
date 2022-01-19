@@ -1,9 +1,9 @@
 package com.github.networkguild.framework
 
+import com.github.networkguild.utils.Logback
 import kotlinx.coroutines.*
 import net.dv8tion.jda.api.events.GenericEvent
 import net.dv8tion.jda.api.hooks.IEventManager
-import org.slf4j.LoggerFactory
 import java.util.concurrent.CopyOnWriteArrayList
 import kotlin.time.Duration
 
@@ -13,7 +13,7 @@ class CoroutineEventManager(
     var timeout: Duration = Duration.INFINITE
 ) : IEventManager, CoroutineScope by scope {
 
-    private val logger = LoggerFactory.getLogger(javaClass)
+    private val logger by Logback<CoroutineEventManager>()
     private val listeners = CopyOnWriteArrayList<Any>()
 
     private fun timeout(listener: Any) = when {
