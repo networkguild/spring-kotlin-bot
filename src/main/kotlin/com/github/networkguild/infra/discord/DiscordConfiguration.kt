@@ -32,5 +32,6 @@ class DiscordConfiguration(
             .setActivity(Activity.of(Activity.ActivityType.WATCHING, "Kotlin tutorials"))
             .setEventManager(CoroutineEventManager(timeout = 2.minutes))
             .build()
+            .awaitReady()
     }
 }
